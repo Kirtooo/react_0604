@@ -43,8 +43,11 @@ export default function App() {
       const newScale = Math.max(0.5, Math.min(2, prevScale * zoomFactor));
       const scaleDelta = newScale / prevScale;
 
-      const dx = newCenter.x - (newCenter.x - translate.x) * scaleDelta;
-      const dy = newCenter.y - (newCenter.y - translate.y) * scaleDelta;
+      const panDx = newCenter.x - lastCenter.current.x;
+      const panDy = newCenter.y - lastCenter.current.y;
+
+      const dx = (translate.x + panDx - newCenter.x) * scaleDelta + newCenter.x;
+      const dy = (translate.y + panDy - newCenter.y) * scaleDelta + newCenter.y;
 
       setScale(newScale);
       setTranslate({ x: dx, y: dy });
